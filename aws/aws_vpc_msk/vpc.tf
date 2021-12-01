@@ -6,5 +6,7 @@ resource "aws_vpc" "msk_vpc" {
       "Name", "msk-${lower(var.environment)}-vpc",
       "Description", "VPC for creating MSK resources",
     )
-  )
+    , {
+      yor_trace = "a18f46dd-48ae-442e-ba4d-070ac5b3d4c1"
+  })
 }

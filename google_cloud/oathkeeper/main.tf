@@ -47,6 +47,9 @@ resource "google_storage_bucket" "config" {
   name               = "${local.project}_${local.region}_oathkeeper"
   location           = local.location
   bucket_policy_only = true
+  labels = {
+    yor_trace = "cad13447-46f4-445a-a7df-30fe51a518b5"
+  }
 }
 
 # rules for service
@@ -72,8 +75,8 @@ resource "google_storage_bucket_iam_member" "oathkeeper-viewer" {
 
 # Cloud Run ORY Oathkeeper
 resource "google_cloud_run_service" "oathkeeper" {
-  name     = "oathkeeper"
-  location = local.region
+  name       = "oathkeeper"
+  location   = local.region
   depends_on = [google_storage_bucket_object.rules]
   template {
     spec {
@@ -81,13 +84,13 @@ resource "google_cloud_run_service" "oathkeeper" {
       service_account_name = google_service_account.oathkeeper.email
       containers {
         image = null_resource.oathkeeper_image.triggers.image
-        args = ["--config", "/config.yaml"]
-        env { 
+        args  = ["--config", "/config.yaml"]
+        env {
           name  = "nonce"
           value = filesha256("${path.module}/rules.template.yml") # Force refresh on rule change
         }
         env {
-          name  = "ACCESS_RULES_REPOSITORIES"
+          name = "ACCESS_RULES_REPOSITORIES"
           # storage.cloud.google.com domain serves content via redirects which is does not work ATM https://github.com/ory/oathkeeper/issues/425
           value = "https://storage.googleapis.com/${google_storage_bucket.config.name}/${google_storage_bucket_object.rules.name}"
         }

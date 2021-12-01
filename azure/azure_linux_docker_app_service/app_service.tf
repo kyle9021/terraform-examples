@@ -36,6 +36,9 @@ resource "azurerm_app_service_plan" "current" {
     tier = var.app_service_plan_tier
     size = var.app_service_plan_size
   }
+  tags = {
+    yor_trace = "a7ad060c-ab06-444b-8966-620d0e94b7b1"
+  }
 }
 
 # App service
@@ -85,6 +88,9 @@ resource "azurerm_app_service" "current" {
   # Configure if you need EasyAuth
   # auth_settings {
   # }
+  tags = {
+    yor_trace = "65749028-e44c-42d4-bd7b-e597baff2ff8"
+  }
 }
 
 # Deployment slot for better availability during deployments
@@ -113,5 +119,8 @@ resource "azurerm_app_service_slot" "next" {
       app_settings["DOCKER_CUSTOM_IMAGE_NAME"],
       site_config.0.scm_type,
     ]
+  }
+  tags = {
+    yor_trace = "18b45c0b-47d4-452f-8890-7b8f93e8c9b6"
   }
 }

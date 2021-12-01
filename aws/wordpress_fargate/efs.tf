@@ -1,6 +1,8 @@
 resource "aws_efs_file_system" "this" {
   creation_token = "${var.prefix}-${var.environment}"
-  tags           = var.tags
+  tags = merge(var.tags, {
+    yor_trace = "ef0150e0-e10b-409d-be4b-7b5b419b9b2d"
+  })
 }
 
 resource "aws_efs_mount_target" "this" {
@@ -30,5 +32,7 @@ resource "aws_security_group" "efs" {
     protocol  = "tcp"
     self      = true
   }
-  tags = var.tags
+  tags = merge(var.tags, {
+    yor_trace = "e8cc5116-b07b-48d0-9108-8aad04272350"
+  })
 }

@@ -36,7 +36,9 @@ resource "aws_security_group" "KafkaClusterSG" {
     map(
       "Name", "msk-${lower(var.environment)}-sg-${random_uuid.randuuid.result}"
     )
-  )
+    , {
+      yor_trace = "f512aa4b-01ae-49f3-99ce-e163946b86df"
+  })
 }
 
 resource "aws_security_group" "KafkaClientInstanceSG" {
@@ -64,5 +66,7 @@ resource "aws_security_group" "KafkaClientInstanceSG" {
     map(
       "Name", "KafkaClientInstanceSG"
     )
-  )
+    , {
+      yor_trace = "719194e5-9490-4cad-b819-1a01cb8b3881"
+  })
 }

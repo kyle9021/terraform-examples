@@ -3,7 +3,9 @@ module "acm_alb" {
   version     = "~> v2.0"
   domain_name = var.public_alb_domain
   zone_id     = data.aws_route53_zone.this.zone_id
-  tags        = var.tags
+  tags = merge(var.tags, {
+    yor_trace = "ed5c6526-0ba2-40c5-865f-ebff75fb7615"
+  })
 }
 
 resource "aws_security_group" "alb" {
@@ -32,7 +34,9 @@ resource "aws_security_group" "alb" {
     self      = true
   }
 
-  tags = var.tags
+  tags = merge(var.tags, {
+    yor_trace = "06622987-3c00-46ac-af54-b2a1681d62ee"
+  })
 }
 
 
@@ -59,5 +63,7 @@ module "alb" {
       backend_port     = 80
     }
   ]
-  tags = var.tags
+  tags = merge(var.tags, {
+    yor_trace = "2d2a6d15-853e-4968-bed3-fa50d5fe80c9"
+  })
 }

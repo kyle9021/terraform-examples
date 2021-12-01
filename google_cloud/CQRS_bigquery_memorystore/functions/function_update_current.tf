@@ -33,6 +33,9 @@ resource "google_cloudfunctions_function" "update_current" {
     BUCKET         = google_storage_bucket.memorystore_uploads.name
     FILE           = "current_totals.json"
   }
+  labels = {
+    yor_trace = "8f0d7d80-5219-49bd-95e7-879e79a964ae"
+  }
 }
 
 data "archive_file" "materialize_zip" {
