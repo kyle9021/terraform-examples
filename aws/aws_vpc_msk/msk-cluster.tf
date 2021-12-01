@@ -1,10 +1,13 @@
 resource "aws_cloudwatch_log_group" "cloudwatch_log_group" {
   name = "msk_cluster_cloudwatch_group-${random_uuid.randuuid.result}"
+  tags = {
+    yor_trace = "061254a3-205b-4d86-9f1a-3255038afac3"
+  }
 }
 
 resource "aws_msk_configuration" "msk_cluster_config" {
-  kafka_versions = [var.msk_cluster_version]
-  name           = "msk-${lower(var.environment)}-cluster-cfg-${random_uuid.randuuid.result}"
+  kafka_versions    = [var.msk_cluster_version]
+  name              = "msk-${lower(var.environment)}-cluster-cfg-${random_uuid.randuuid.result}"
   server_properties = <<PROPERTIES
 auto.create.topics.enable = true
 delete.topic.enable = true
@@ -36,10 +39,10 @@ resource "aws_msk_cluster" "msk_cluster" {
   }
 */
 
-configuration_info {
-  arn = aws_msk_configuration.msk_cluster_config.arn
-  revision = 1
-}
+  configuration_info {
+    arn      = aws_msk_configuration.msk_cluster_config.arn
+    revision = 1
+  }
   encryption_info {
     encryption_in_transit {
       client_broker = var.encryption_type
@@ -62,7 +65,9 @@ configuration_info {
     map(
       "Name", "msk-${lower(var.environment)}-cluster"
     )
-  )
+    , {
+      yor_trace = "fc1f9058-cb23-47b1-be8e-3b8251f82004"
+  })
 }
 
 output "zookeeper_connect_string" {

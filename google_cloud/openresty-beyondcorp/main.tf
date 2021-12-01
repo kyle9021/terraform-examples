@@ -96,7 +96,7 @@ resource "template_dir" "swiss" {
 # Create a zip just to generate a sha
 data "archive_file" "swiss" {
   type        = "zip"
-  source_dir = "${path.module}/.build/swiss"
+  source_dir  = "${path.module}/.build/swiss"
   output_path = "/tmp/swiss.zip"
 }
 
@@ -122,6 +122,9 @@ resource "google_cloud_run_service" "openresty" {
 
 resource "google_pubsub_topic" "httpwal" {
   name = "openresty_wal"
+  labels = {
+    yor_trace = "ce4a7ab0-9ecf-4c0c-8253-c2a430aac1c9"
+  }
 }
 
 # grant Cloud Pub/Sub the permission to create tokens for authenticating the subscription
@@ -145,5 +148,8 @@ resource "google_pubsub_subscription" "httpwal" {
     attributes = {
       x-goog-version = "v1"
     }
+  }
+  labels = {
+    yor_trace = "b8882482-33f4-4283-b415-2113ff9623b2"
   }
 }

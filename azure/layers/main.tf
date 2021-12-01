@@ -13,6 +13,9 @@ provider "null" {
 resource "azurerm_resource_group" "network" {
   name     = "${var.resource_name_prefix}-network-rgroup"
   location = var.location
+  tags = {
+    yor_trace = "9cb82d9f-6985-4214-8bb9-c5abe6aa19d1"
+  }
 }
 
 resource "azurerm_virtual_network" "network" {
@@ -20,6 +23,9 @@ resource "azurerm_virtual_network" "network" {
   location            = var.location
   resource_group_name = azurerm_resource_group.network.name
   address_space       = ["10.137.0.0/16"]
+  tags = {
+    yor_trace = "64f70ac0-461d-402d-9237-1f873d3e88df"
+  }
 }
 
 resource "azurerm_subnet" "subnet" {
@@ -40,6 +46,9 @@ resource "azurerm_subnet" "subnet" {
 resource "azurerm_resource_group" "storage" {
   name     = "${var.resource_name_prefix}-storage-rgroup"
   location = var.location
+  tags = {
+    yor_trace = "b1731a50-0cee-4910-acc8-c719cb163021"
+  }
 }
 
 resource "azurerm_storage_account" "storage" {
@@ -49,6 +58,9 @@ resource "azurerm_storage_account" "storage" {
   account_tier              = "Standard"
   account_replication_type  = "LRS"
   enable_https_traffic_only = true
+  tags = {
+    yor_trace = "29938bae-4c30-4330-a6a7-e3cd83ea5691"
+  }
 }
 
 resource "azurerm_storage_container" "storage" {

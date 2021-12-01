@@ -32,6 +32,9 @@ resource "google_cloudfunctions_function" "memorystoreloader" {
     REDIS_PORT = 6379
     EXPIRY     = 60 * 60 * 24 * 30 // 30d expiry for keys
   }
+  labels = {
+    yor_trace = "4ca85b49-acad-453f-99ce-5aa3f23e0c16"
+  }
 }
 
 data "archive_file" "memorystoreload_zip" {

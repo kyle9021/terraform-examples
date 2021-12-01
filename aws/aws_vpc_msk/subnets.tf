@@ -12,7 +12,9 @@ resource "aws_subnet" "private_subnet" {
       "Name", "MSK-${lower(var.environment)}-private-subnet-${count.index + 1}",
       "Description", "${lower(var.environment)} private subnet - ${count.index + 1}"
     )
-  )
+    , {
+      yor_trace = "f971afae-be21-4675-8fb1-d0c70b3c3d23"
+  })
 
 }
 
@@ -30,6 +32,8 @@ resource "aws_subnet" "public_subnet" {
       "Name", "msk-${lower(var.environment)}-public-subnet-${count.index + 1}",
       "Description", "${lower(var.environment)} private subnet - ${count.index + 1}"
     )
-  )
+    , {
+      yor_trace = "123a2409-e434-4572-a7db-a552305f2db7"
+  })
 
 }

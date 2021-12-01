@@ -1,6 +1,9 @@
 resource "aws_iam_instance_profile" "KafkaClientIAM_Profile" {
   name = "KafkaClientIAM_profile"
   role = aws_iam_role.KafkaClientIAM_Role.name
+  tags = {
+    yor_trace = "e32ba3e2-1231-46be-8fec-86c6df686ef2"
+  }
 }
 
 resource "aws_iam_role" "KafkaClientIAM_Role" {
@@ -23,6 +26,9 @@ resource "aws_iam_role" "KafkaClientIAM_Role" {
     ]
 }
 EOF
+  tags = {
+    yor_trace = "d31c5a83-b264-498f-9a65-a74732e00839"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "Kafka-Client-IAM-role-att1" {
@@ -57,7 +63,9 @@ resource "aws_instance" "Kafka-Client-EC2-Instance" {
     map(
       "Name", "Kafka-Client-EC2-Instance"
     )
-  )
+    , {
+      yor_trace = "14ee9648-cbdd-404a-adf4-9e49d0801df8"
+  })
 }
 
 output "IP" {

@@ -26,6 +26,9 @@ resource "azurerm_key_vault" "current" {
   purge_protection_enabled   = false
 
   sku_name = "standard"
+  tags = {
+    yor_trace = "edb4c92f-868c-460f-943a-dfb0f7eeb953"
+  }
 }
 
 resource "azurerm_container_registry" "current" {
@@ -36,6 +39,9 @@ resource "azurerm_container_registry" "current" {
 
   # We'll be using AD login
   admin_enabled = false
+  tags = {
+    yor_trace = "0604330a-3e2a-4e46-8686-b403f860c366"
+  }
 }
 
 resource "azurerm_application_insights" "current" {
@@ -43,4 +49,7 @@ resource "azurerm_application_insights" "current" {
   resource_group_name = data.azurerm_resource_group.current.name
   location            = data.azurerm_resource_group.current.location
   application_type    = var.app_insights_app_type
+  tags = {
+    yor_trace = "bcb115a5-28f8-4405-a94e-0d14fe5fd56d"
+  }
 }

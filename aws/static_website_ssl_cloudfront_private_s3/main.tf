@@ -8,7 +8,9 @@ module "acm" {
   version     = "~> v2.0"
   domain_name = var.site_domain
   zone_id     = data.aws_route53_zone.this.zone_id
-  tags        = var.tags
+  tags = merge(var.tags, {
+    yor_trace = "0c937a49-e512-496e-89ec-2d31cf23e5ad"
+  })
 
   providers = {
     aws = "aws.us_east_1" # cloudfront needs acm certificate to be from "us-east-1" region
@@ -18,7 +20,9 @@ module "acm" {
 ## S3
 resource "aws_s3_bucket" "this" {
   bucket = var.bucket_name
-  tags   = var.tags
+  tags = merge(var.tags, {
+    yor_trace = "8ee97317-aac7-419e-84d9-d431f6050777"
+  })
 }
 
 resource "aws_s3_bucket_public_access_block" "website_bucket" {
@@ -99,7 +103,9 @@ resource "aws_cloudfront_distribution" "this" {
   }
   price_class = var.cf_price_class
 
-  tags = var.tags
+  tags = merge(var.tags, {
+    yor_trace = "bf3cb685-dcbc-440e-901b-89c0d585f624"
+  })
 
   restrictions {
     geo_restriction {

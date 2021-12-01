@@ -5,7 +5,9 @@ module "acm" {
   version     = "~> v2.0"
   domain_name = var.site_domain
   zone_id     = data.aws_route53_zone.this.zone_id
-  tags        = var.tags
+  tags = merge(var.tags, {
+    yor_trace = "840c3603-a65b-4bf8-8b26-18ddb982f3f8"
+  })
 
   providers = {
     aws = aws.us_east_1 # cloudfront needs acm certificate to be from "us-east-1" region
@@ -99,7 +101,9 @@ resource "aws_cloudfront_distribution" "this" {
     viewer_protocol_policy = "redirect-to-https"
   }
   price_class = var.cf_price_class
-  tags        = var.tags
+  tags = merge(var.tags, {
+    yor_trace = "62544a35-97c6-4229-8771-935688fbd158"
+  })
   restrictions {
     geo_restriction {
       restriction_type = "none"

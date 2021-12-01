@@ -47,7 +47,7 @@ locals {
   # through the Cloud Console mobile app or https://console.cloud.google.com
   # Create a group at https://groups.google.com/forum/#!creategroup
   # and invite members by their email address.
-  enable_switch_access_group = 1
+  enable_switch_access_group    = 1
   minecraft_switch_access_group = "minecraft-switchers-lark@googlegroups.com"
 }
 
@@ -69,6 +69,9 @@ resource "google_compute_disk" "minecraft" {
   type  = "pd-standard"
   zone  = local.zone
   image = "cos-cloud/cos-stable"
+  labels = {
+    yor_trace = "55f48171-60c7-4ca3-9af3-cd76de9b2deb"
+  }
 }
 
 # Permenant IP address, stays around when VM is off
@@ -96,7 +99,7 @@ resource "google_compute_instance" "minecraft" {
   metadata = {
     enable-oslogin = "TRUE"
   }
-      
+
   boot_disk {
     auto_delete = false # Keep disk after shutdown (game data)
     source      = google_compute_disk.minecraft.self_link
@@ -117,6 +120,9 @@ resource "google_compute_instance" "minecraft" {
   scheduling {
     preemptible       = true # Closes within 24 hours (sometimes sooner)
     automatic_restart = false
+  }
+  labels = {
+    yor_trace = "0ce87081-85ef-4001-949d-d89ac8eb23cd"
   }
 }
 
@@ -163,23 +169,23 @@ resource "google_project_iam_custom_role" "instanceLister" {
 }
 
 resource "google_compute_instance_iam_member" "switcher" {
-  count = local.enable_switch_access_group
-  project = local.project
-  zone = local.zone
+  count         = local.enable_switch_access_group
+  project       = local.project
+  zone          = local.zone
   instance_name = google_compute_instance.minecraft.name
-  role = google_project_iam_custom_role.minecraftSwitcher.id
-  member = "group:${local.minecraft_switch_access_group}"
+  role          = google_project_iam_custom_role.minecraftSwitcher.id
+  member        = "group:${local.minecraft_switch_access_group}"
 }
 
 resource "google_project_iam_member" "projectBrowsers" {
-  count = local.enable_switch_access_group
+  count   = local.enable_switch_access_group
   project = local.project
   role    = "roles/browser"
   member  = "group:${local.minecraft_switch_access_group}"
 }
 
 resource "google_project_iam_member" "computeViewer" {
-  count = local.enable_switch_access_group
+  count   = local.enable_switch_access_group
   project = local.project
   role    = google_project_iam_custom_role.instanceLister.id
   member  = "group:${local.minecraft_switch_access_group}"

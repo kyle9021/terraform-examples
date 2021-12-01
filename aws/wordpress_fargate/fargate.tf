@@ -1,7 +1,9 @@
 # Ref - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html
 resource "aws_iam_role" "task_execution_role" {
   name = "${var.prefix}-task-execution-role-${var.environment}"
-  tags = var.tags
+  tags = merge(var.tags, {
+    yor_trace = "4f18c9b6-1b1e-4496-abae-7f1faf1aa632"
+  })
 
   assume_role_policy = <<EOF
 {
@@ -43,6 +45,9 @@ resource "aws_iam_policy" "task_execution_policy" {
   ]
   }
 EOF
+  tags = {
+    yor_trace = "e7862122-c1a9-418d-810c-bfec3db4a244"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "task_execution_policy_attach" {
@@ -53,7 +58,9 @@ resource "aws_iam_role_policy_attachment" "task_execution_policy_attach" {
 
 resource "aws_iam_role" "task_role" {
   name = "${var.prefix}-task-role-${var.environment}"
-  tags = var.tags
+  tags = merge(var.tags, {
+    yor_trace = "c374902e-333b-4581-882b-c4b5984f3d63"
+  })
 
   assume_role_policy = <<EOF
 {
@@ -89,6 +96,9 @@ resource "aws_iam_policy" "task_policy" {
   ]
   }
 EOF
+  tags = {
+    yor_trace = "b6cc665e-1bf1-48db-84c3-4d630c6189a6"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "task_policy_attach" {
@@ -99,6 +109,9 @@ resource "aws_iam_role_policy_attachment" "task_policy_attach" {
 
 resource "aws_ecs_cluster" "this" {
   name = "${var.prefix}-${var.environment}"
+  tags = {
+    yor_trace = "40e427de-1110-4899-b27b-d48d0efe7d49"
+  }
 }
 
 resource "aws_security_group" "wordpress" {
@@ -120,7 +133,9 @@ resource "aws_security_group" "wordpress" {
     security_groups = [aws_security_group.alb.id, aws_security_group.efs.id]
   }
 
-  tags = var.tags
+  tags = merge(var.tags, {
+    yor_trace = "5c7bcf00-3b2b-47de-b24d-03e929de3e38"
+  })
 }
 
 resource "aws_ecs_service" "this" {
@@ -145,6 +160,9 @@ resource "aws_ecs_service" "this" {
     ignore_changes = [desired_count]
   }
 
+  tags = {
+    yor_trace = "363236fe-05c2-4c45-8dc8-84e0cbf2c696"
+  }
 }
 
 
@@ -211,11 +229,16 @@ CONTAINER_DEFINITION
       file_system_id = aws_efs_file_system.this.id
     }
   }
+  tags = {
+    yor_trace = "861c32cd-48f4-4253-8306-ae70c4199b96"
+  }
 }
 
 resource "aws_cloudwatch_log_group" "wordpress" {
-  name              = "/${var.prefix}/${var.environment}/fg-task"
-  tags              = var.tags
+  name = "/${var.prefix}/${var.environment}/fg-task"
+  tags = merge(var.tags, {
+    yor_trace = "ac671563-2c72-49b2-a6f8-3eda653aa929"
+  })
   retention_in_days = var.log_retention_in_days
 }
 
@@ -230,6 +253,9 @@ resource "aws_lb_target_group" "this" {
     matcher = "200,302"
   }
 
+  tags = {
+    yor_trace = "6da4927f-e2fc-4584-996a-0f1a13973046"
+  }
 }
 
 resource "aws_lb_listener_rule" "wordpress" {
@@ -264,6 +290,9 @@ resource "aws_cloudwatch_metric_alarm" "cpu_utilization_high" {
   }
 
   alarm_actions = [aws_appautoscaling_policy.scale_up.arn]
+  tags = {
+    yor_trace = "8578b15e-5c1d-4270-8133-63b138dda1a1"
+  }
 }
 
 resource "aws_cloudwatch_metric_alarm" "cpu_utilization_low" {
@@ -282,6 +311,9 @@ resource "aws_cloudwatch_metric_alarm" "cpu_utilization_low" {
   }
 
   alarm_actions = [aws_appautoscaling_policy.scale_down.arn]
+  tags = {
+    yor_trace = "9d2cadbb-f74f-4d65-a202-b6b5e7d9c196"
+  }
 }
 
 

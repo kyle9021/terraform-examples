@@ -12,6 +12,9 @@ resource "azurerm_monitor_action_group" "current" {
     name          = "sendtoemail"
     email_address = var.alert_email_address
   }
+  tags = {
+    yor_trace = "2c5b53bc-c237-49f4-bc9e-c5426da24736"
+  }
 }
 
 # Availability ping
@@ -38,6 +41,9 @@ XML
     ignore_changes = [
       tags
     ]
+  }
+  tags = {
+    yor_trace = "1f7d73e6-a85b-4250-98d3-df9fdb1811a4"
   }
 }
 
@@ -67,6 +73,9 @@ resource "azurerm_monitor_metric_alert" "app_availability" {
   action {
     action_group_id = azurerm_monitor_action_group.current.id
   }
+  tags = {
+    yor_trace = "5956e45a-2f30-409f-a9f4-04dbfeda8f9f"
+  }
 }
 
 
@@ -95,6 +104,9 @@ resource "azurerm_monitor_metric_alert" "ms_5xx_errors" {
   action {
     action_group_id = azurerm_monitor_action_group.current.id
   }
+  tags = {
+    yor_trace = "e9121949-bf07-4430-8083-fbb9f5bee3bd"
+  }
 }
 
 # Dependency failures (e.g. HTTP request to another service or database query failed)
@@ -121,5 +133,8 @@ QUERY
     action_group = [
       azurerm_monitor_action_group.current.id
     ]
+  }
+  tags = {
+    yor_trace = "51ca6caf-2773-459b-8113-5765fed77093"
   }
 }

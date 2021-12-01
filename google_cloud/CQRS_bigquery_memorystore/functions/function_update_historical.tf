@@ -31,4 +31,7 @@ resource "google_cloudfunctions_function" "update_historical" {
     BUCKET         = google_storage_bucket.memorystore_uploads.name
     FILE           = "historical_totals.json"
   }
+  labels = {
+    yor_trace = "03cc2b4c-2f74-46b7-b8cb-f3983600afaf"
+  }
 }

@@ -7,11 +7,16 @@ resource "aws_internet_gateway" "main-igw" {
       "Name", "MSK-IGW",
       "Description", "Internet Gateway"
     )
-  )
+    , {
+      yor_trace = "e3f5a70a-7af2-4eff-8177-6aaa78aad5ff"
+  })
 }
 
 ########### NAT ##############
 resource "aws_eip" "nat" {
+  tags = {
+    yor_trace = "1e6d7401-47b3-4afd-96ca-eec9e2808e46"
+  }
 }
 
 resource "aws_nat_gateway" "main-natgw" {
@@ -23,7 +28,9 @@ resource "aws_nat_gateway" "main-natgw" {
       "Name", "MSK-NatGateway",
       "Description", "NAT Gateway"
     )
-  )
+    , {
+      yor_trace = "96e14369-f6dc-42b7-8f0f-1694967c5342"
+  })
 }
 
 ############# Route Tables ##########
@@ -41,7 +48,9 @@ resource "aws_route_table" "PublicRouteTable" {
       "Name", "MSK-Public-Routetable",
       "Description", "Public-Routetable"
     )
-  )
+    , {
+      yor_trace = "bd9e6dac-683d-4312-8a1b-21ba11a6294b"
+  })
 
 }
 
@@ -57,7 +66,9 @@ resource "aws_route_table" "PrivateRouteTable" {
       "Name", "MSK-Private-Routetable",
       "Description", "Private-Routetable"
     )
-  )
+    , {
+      yor_trace = "d5b7fa2b-edef-4b95-ac30-a59517d4f874"
+  })
 }
 
 #########Route Table Association #############

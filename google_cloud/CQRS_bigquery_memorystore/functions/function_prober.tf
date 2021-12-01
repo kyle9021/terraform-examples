@@ -24,9 +24,12 @@ resource "google_cloudfunctions_function" "prober" {
   }
 
   environment_variables = {
-    PROBE_DATASET   = var.prober_ingress_table.dataset_id
-    PROBE_TABLE     = var.prober_ingress_table.table_id
+    PROBE_DATASET    = var.prober_ingress_table.dataset_id
+    PROBE_TABLE      = var.prober_ingress_table.table_id
     CONTROLS_DATASET = var.control_dataset.dataset_id
+  }
+  labels = {
+    yor_trace = "bb674159-279c-4faa-9246-0a3c23edb25d"
   }
 }
 
