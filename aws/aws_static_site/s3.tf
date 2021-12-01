@@ -22,6 +22,13 @@ resource "aws_s3_bucket" "this" {
     index_document = "index.html"
     error_document = "error.html"
   }
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
 }
 
 # Use a bucket policy (instead of the simpler acl = "public-read") so we don't need to always remember to upload objects with:
